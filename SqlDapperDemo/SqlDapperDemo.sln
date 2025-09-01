@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlDapperDemo.Api", "SqlDapperDemo.Api\SqlDapperDemo.Api.csproj", "{752A6A2D-3DD1-43DE-8EFC-2B4C47715AAC}"
+EndProject
+Project("{42EA0DBD-9CF1-443E-919E-BE9C484E4577}") = "SqlDapperDemo.Database", "SqlDapperDemo.Database\SqlDapperDemo.Database.sqlproj", "{01D431C9-5075-4013-AA91-94134391CE9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlDapperDemo.AppHost", "SqlDapperDemo.AppHost\SqlDapperDemo.AppHost.csproj", "{33C4343E-6A80-48B7-9E89-02457AAF3E4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlDapperDemo.ServiceDefaults", "SqlDapperDemo.ServiceDefaults\SqlDapperDemo.ServiceDefaults.csproj", "{04C9B382-0073-414C-9B3D-FAEE41732B60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{752A6A2D-3DD1-43DE-8EFC-2B4C47715AAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{752A6A2D-3DD1-43DE-8EFC-2B4C47715AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{752A6A2D-3DD1-43DE-8EFC-2B4C47715AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{752A6A2D-3DD1-43DE-8EFC-2B4C47715AAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01D431C9-5075-4013-AA91-94134391CE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01D431C9-5075-4013-AA91-94134391CE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01D431C9-5075-4013-AA91-94134391CE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01D431C9-5075-4013-AA91-94134391CE9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33C4343E-6A80-48B7-9E89-02457AAF3E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33C4343E-6A80-48B7-9E89-02457AAF3E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33C4343E-6A80-48B7-9E89-02457AAF3E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33C4343E-6A80-48B7-9E89-02457AAF3E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C9B382-0073-414C-9B3D-FAEE41732B60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C9B382-0073-414C-9B3D-FAEE41732B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C9B382-0073-414C-9B3D-FAEE41732B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C9B382-0073-414C-9B3D-FAEE41732B60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

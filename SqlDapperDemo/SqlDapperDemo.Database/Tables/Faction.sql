@@ -1,0 +1,4 @@
+CREATE TABLE [dbo].[Faction]
+(
+  [Id] INT NOT NULL PRIMARY KEY IDENTITY 
+)

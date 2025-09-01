@@ -1,0 +1,4 @@
+CREATE TABLE [dbo].[Captain]
+(
+  [Id] INT NOT NULL PRIMARY KEY IDENTITY 
+)
