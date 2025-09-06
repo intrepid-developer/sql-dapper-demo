@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Sdk Name="Aspire.AppHost.Sdk" Version="9.4.0"/>
+    <Sdk Name="Aspire.AppHost.Sdk" Version="9.4.0" />
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -11,15 +11,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.1"/>
-        <PackageReference Include="Aspire.Hosting.Azure.AppContainers" Version="9.4.1"/>
-        <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.4.1"/>
-        <PackageReference Include="CommunityToolkit.Aspire.Hosting.SqlDatabaseProjects" Version="9.4.1"/>
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.2" />
+        <PackageReference Include="Aspire.Hosting.Azure.AppContainers" Version="9.4.2" />
+        <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.4.2" />
+        <PackageReference Include="CommunityToolkit.Aspire.Hosting.SqlDatabaseProjects" Version="9.7.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SqlDapperDemo.Api\SqlDapperDemo.Api.csproj"/>
-        <ProjectReference Include="..\SqlDapperDemo.Database\SqlDapperDemo.Database.sqlproj"/>
+        <ProjectReference Include="..\SqlDapperDemo.Api\SqlDapperDemo.Api.csproj" />
+        <ProjectReference Include="..\SqlDapperDemo.Database\SqlDapperDemo.Database.sqlproj" IsAspireProjectResource="false" />
     </ItemGroup>
 
 </Project>

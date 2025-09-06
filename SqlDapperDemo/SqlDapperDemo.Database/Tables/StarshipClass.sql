@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[StarshipClass]
     [Active]         BIT           NOT NULL DEFAULT 1,
     [CreatedAt]      DATETIME2     NOT NULL DEFAULT DF_StarshipClass_CreatedAt(GETUTCDATE()),
     [LastUpdatedAt]  DATETIME2     NOT NULL DEFAULT DF_StarshipClass_LastUpdatedAt(GETUTCDATE()),
-)
+);
 
-CREATE UNIQUE INDEX IX_StarshipClass_Name ON dbo.StarshipClass (Name)
+GO
+CREATE UNIQUE INDEX IX_StarshipClass_Name ON dbo.StarshipClass (Name);
