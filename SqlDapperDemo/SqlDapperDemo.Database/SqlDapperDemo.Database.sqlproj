@@ -9,4 +9,7 @@
     <ItemGroup>
       <Folder Include="Views\" />
     </ItemGroup>
+    <ItemGroup>
+      <PostDeploy Include="Script.SeedData.sql" />
+    </ItemGroup>
 </Project>

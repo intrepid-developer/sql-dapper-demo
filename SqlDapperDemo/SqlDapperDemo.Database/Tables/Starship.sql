@@ -6,6 +6,14 @@ CREATE TABLE [dbo].[Starship]
     [Commissioned]   DATETIME2     NOT NULL,
     [Decommissioned] DATETIME2     NULL,
     [ClassId]        INT           NOT NULL,
-    [CreatedAt]      DATETIME2     NOT NULL DEFAULT DF_Starship_CreatedAt(GETUTCDATE()),
-    [LastUpdatedAt]  DATETIME2     NOT NULL DEFAULT DF_Starship_LastUpdatedAt(GETUTCDATE()),
-)
+    [CreatedAt]      DATETIME2     NOT NULL CONSTRAINT DF_Starship_CreatedAt DEFAULT (GETUTCDATE()),
+    [LastUpdatedAt]  DATETIME2     NOT NULL CONSTRAINT DF_Starship_LastUpdatedAt DEFAULT (GETUTCDATE())
+);
+
+GO
+ALTER TABLE dbo.Starship
+  ADD CONSTRAINT FK_Starship_Class
+  FOREIGN KEY (ClassId) REFERENCES dbo.StarshipClass (Id);
+
+GO
+CREATE UNIQUE INDEX IX_Starship_Registration ON dbo.Starship (Registration);

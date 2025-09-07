@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\SqlDapperDemo.Api\SqlDapperDemo.Api.csproj" />
-        <ProjectReference Include="..\SqlDapperDemo.Database\SqlDapperDemo.Database.sqlproj" IsAspireProjectResource="false" />
+        <ProjectReference Include="..\SqlDapperDemo.Database\SqlDapperDemo.Database.sqlproj" />
     </ItemGroup>
 
 </Project>
