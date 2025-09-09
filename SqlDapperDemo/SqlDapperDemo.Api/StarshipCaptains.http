@@ -1,0 +1,27 @@
+@host = http://localhost:5111
+@id = 1
+
+# List starship-captain assignments
+GET {{host}}/starship-captains
+Accept: application/json
+
+###
+# Create assignment (ensure StarshipId and CaptainId exist)
+POST {{host}}/starship-captains
+Content-Type: application/json
+
+{
+  "starshipId": 1,
+  "captainId": 1
+}
+
+###
+# Get by id
+GET {{host}}/starship-captains/{{id}}
+Accept: application/json
+
+###
+# Delete assignment
+DELETE {{host}}/starship-captains/{{id}}
+
+###

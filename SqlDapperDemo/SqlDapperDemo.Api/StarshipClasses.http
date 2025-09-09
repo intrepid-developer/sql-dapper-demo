@@ -1,0 +1,66 @@
+@host = http://localhost:5111
+@id = 1
+
+# List starship classes
+GET {{host}}/starship-classes
+Accept: application/json
+
+###
+# Create starship class
+POST {{host}}/starship-classes
+Content-Type: application/json
+
+{
+  "name": "Constitution",
+  "description": "Exploration vessel",
+  "factionId": null,
+  "length": 288,
+  "width": 127,
+  "depth": 72,
+  "decks": 21,
+  "height": 74,
+  "maxWarpSpeed": 8,
+  "crew": 430,
+  "cargoCapacity": 1000,
+  "starshipType": 1,
+  "enteredService": "2265-01-01T00:00:00Z",
+  "exitedService": null,
+  "active": true
+}
+
+###
+# Get by id
+GET {{host}}/starship-classes/{{id}}
+Accept: application/json
+
+###
+# Update starship class
+PUT {{host}}/starship-classes/{{id}}
+Content-Type: application/json
+
+{
+  "id": {{id}},
+  "name": "Constitution Refit",
+  "description": "Refit class",
+  "factionId": null,
+  "length": 305,
+  "width": 140,
+  "depth": 75,
+  "decks": 23,
+  "height": 78,
+  "maxWarpSpeed": 9,
+  "crew": 450,
+  "cargoCapacity": 1200,
+  "starshipType": 1,
+  "enteredService": "2270-01-01T00:00:00Z",
+  "exitedService": null,
+  "active": true,
+  "createdAt": "2024-01-01T00:00:00Z",
+  "lastUpdatedAt": "2024-01-01T00:00:00Z"
+}
+
+###
+# Delete starship class
+DELETE {{host}}/starship-classes/{{id}}
+
+###

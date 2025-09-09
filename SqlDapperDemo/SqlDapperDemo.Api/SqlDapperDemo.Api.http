@@ -1,6 +1,13 @@
-@SqlDapperDemo.Api_HostAddress = http://localhost:5111
+@host = http://localhost:5111
 
-GET {{SqlDapperDemo.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+# Health (Development only)
+GET {{host}}/alive
+
+###
+GET {{host}}/health
+
+###
+# OpenAPI document (Development only)
+GET {{host}}/openapi/v1.json
 
 ###

@@ -1,3 +1,7 @@
+using System.Data;
+using Microsoft.Data.SqlClient;
+using SqlDapperDemo.Api.Endpoints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -5,6 +9,16 @@ builder.AddServiceDefaults();
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// IDbConnection for Dapper using Aspire-provided connection string
+builder.Services.AddScoped<IDbConnection>(sp =>
+{
+    var cs = sp.GetRequiredService<IConfiguration>()
+        .GetConnectionString("sql-dapper-demo");
+    if (string.IsNullOrWhiteSpace(cs))
+        throw new InvalidOperationException("Missing connection string 'sql-dapper-demo'.");
+    return new SqlConnection(cs);
+});
 
 var app = builder.Build();
 
@@ -18,28 +32,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
+// Map data endpoints
+app.MapCaptainEndpoints();
+app.MapFactionEndpoints();
+app.MapStarshipClassEndpoints();
+app.MapStarshipEndpoints();
+app.MapStarshipCaptainEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
