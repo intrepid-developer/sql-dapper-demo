@@ -48,7 +48,7 @@ public static class Starships
             Commissioned = @Commissioned,
             Decommissioned = @Decommissioned,
             ClassId = @ClassId,
-            LastUpdatedAt = SYSUTCDATETIME()
+            LastUpdatedAt = GETUTCDATE()
           WHERE Id = @Id
           """,
           new

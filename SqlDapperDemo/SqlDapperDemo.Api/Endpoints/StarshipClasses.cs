@@ -69,7 +69,7 @@ public static class StarshipClasses
             EnteredService = @EnteredService,
             ExitedService = @ExitedService,
             Active = @Active,
-            LastUpdatedAt = SYSUTCDATETIME()
+            LastUpdatedAt = GETUTCDATE()
           WHERE Id = @Id
           """,
           new

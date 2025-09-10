@@ -44,7 +44,7 @@ public static class Factions
           UPDATE dbo.Faction
           SET Name = @Name,
               Colour = @Colour,
-              LastUpdatedAt = SYSUTCDATETIME()
+              LastUpdatedAt = GETUTCDATE()
           WHERE Id = @Id
           """, new { Id = id, input.Name, input.Colour });
       return affected == 0 ? Results.NotFound() : Results.NoContent();

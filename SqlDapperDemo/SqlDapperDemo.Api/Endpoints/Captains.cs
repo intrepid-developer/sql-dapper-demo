@@ -51,7 +51,7 @@ public static class Captains
               HomePlanet = @HomePlanet,
               Born = @Born,
               Died = @Died,
-              LastUpdatedAt = SYSUTCDATETIME()
+              LastUpdatedAt = GETUTCDATE()
           WHERE Id = @Id
           """, new
       {
