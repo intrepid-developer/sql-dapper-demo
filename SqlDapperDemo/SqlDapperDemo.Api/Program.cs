@@ -1,5 +1,3 @@
-using System.Data;
-using Microsoft.Data.SqlClient;
 using SqlDapperDemo.Api.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,15 +8,8 @@ builder.AddServiceDefaults();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-// IDbConnection for Dapper using Aspire-provided connection string
-builder.Services.AddScoped<IDbConnection>(sp =>
-{
-    var cs = sp.GetRequiredService<IConfiguration>()
-        .GetConnectionString("sql-dapper-demo");
-    if (string.IsNullOrWhiteSpace(cs))
-        throw new InvalidOperationException("Missing connection string 'sql-dapper-demo'.");
-    return new SqlConnection(cs);
-});
+// SqlConnection for Dapper using Aspire-provided connection string
+builder.AddSqlServerClient(connectionName: "sql-dapper-demo");
 
 var app = builder.Build();
 
@@ -27,7 +18,7 @@ app.MapDefaultEndpoints();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+  app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();

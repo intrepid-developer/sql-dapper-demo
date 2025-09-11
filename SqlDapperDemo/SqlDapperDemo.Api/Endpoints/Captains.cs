@@ -1,5 +1,7 @@
 using System.Data;
 using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Mvc;
 using SqlDapperDemo.Api.Entities;
 
 namespace SqlDapperDemo.Api.Endpoints;
@@ -9,7 +11,7 @@ public static class Captains
   public static void MapCaptainEndpoints(this WebApplication app)
   {
     // List all captains
-    app.MapGet("captains", async (IDbConnection db) =>
+    app.MapGet("captains", async ([FromServices] SqlConnection db) =>
     {
       var items = await db.QueryAsync<Captain>("""
           SELECT Id, Name, Rank, HomePlanet, Born, Died, CreatedAt, LastUpdatedAt
@@ -20,7 +22,7 @@ public static class Captains
     });
 
     // Get captain by id
-    app.MapGet("captains/{id:int}", async (int id, IDbConnection db) =>
+    app.MapGet("captains/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var item = await db.QuerySingleOrDefaultAsync<Captain>("""
           SELECT Id, Name, Rank, HomePlanet, Born, Died, CreatedAt, LastUpdatedAt
@@ -31,18 +33,18 @@ public static class Captains
     });
 
     // Create captain
-    app.MapPost("captains", async (Captain input, IDbConnection db) =>
+    app.MapPost("captains", async ([FromBody] Captain captain, [FromServices] SqlConnection db) =>
     {
       var created = await db.QuerySingleAsync<Captain>("""
           INSERT dbo.Captain (Name, Rank, HomePlanet, Born, Died)
           OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Rank, INSERTED.HomePlanet, INSERTED.Born, INSERTED.Died, INSERTED.CreatedAt, INSERTED.LastUpdatedAt
           VALUES (@Name, @Rank, @HomePlanet, @Born, @Died)
-          """, input);
+          """, captain);
       return Results.Created($"/captains/{created.Id}", created);
     });
 
     // Update captain
-    app.MapPut("captains/{id:int}", async (int id, Captain input, IDbConnection db) =>
+    app.MapPut("captains/{id:int}", async (int id, [FromBody] Captain captain, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           UPDATE dbo.Captain
@@ -56,17 +58,17 @@ public static class Captains
           """, new
       {
         Id = id,
-        input.Name,
-        input.Rank,
-        input.HomePlanet,
-        input.Born,
-        input.Died
+        captain.Name,
+        captain.Rank,
+        captain.HomePlanet,
+        captain.Born,
+        captain.Died
       });
       return affected == 0 ? Results.NotFound() : Results.NoContent();
     });
 
     // Delete captain
-    app.MapDelete("captains/{id:int}", async (int id, IDbConnection db) =>
+    app.MapDelete("captains/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           DELETE FROM dbo.Captain WHERE Id = @id

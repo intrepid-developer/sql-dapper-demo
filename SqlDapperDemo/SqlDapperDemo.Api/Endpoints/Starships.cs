@@ -1,5 +1,7 @@
 using System.Data;
 using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Mvc;
 using SqlDapperDemo.Api.Entities;
 
 namespace SqlDapperDemo.Api.Endpoints;
@@ -8,7 +10,7 @@ public static class Starships
 {
   public static void MapStarshipEndpoints(this WebApplication app)
   {
-    app.MapGet("starships", async (IDbConnection db) =>
+    app.MapGet("starships", async ([FromServices] SqlConnection db) =>
     {
       var items = await db.QueryAsync<Starship>("""
           SELECT Id, Name, Registration, Commissioned, Decommissioned, ClassId, CreatedAt, LastUpdatedAt
@@ -18,7 +20,7 @@ public static class Starships
       return Results.Ok(items);
     });
 
-    app.MapGet("starships/{id:int}", async (int id, IDbConnection db) =>
+    app.MapGet("starships/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var item = await db.QuerySingleOrDefaultAsync<Starship>("""
           SELECT Id, Name, Registration, Commissioned, Decommissioned, ClassId, CreatedAt, LastUpdatedAt
@@ -28,18 +30,18 @@ public static class Starships
       return item is null ? Results.NotFound() : Results.Ok(item);
     });
 
-    app.MapPost("starships", async (Starship input, IDbConnection db) =>
+    app.MapPost("starships", async ([FromBody] Starship starship, [FromServices] SqlConnection db) =>
     {
       var created = await db.QuerySingleAsync<Starship>("""
           INSERT dbo.Starship (Name, Registration, Commissioned, Decommissioned, ClassId)
           OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Registration, INSERTED.Commissioned, INSERTED.Decommissioned,
                  INSERTED.ClassId, INSERTED.CreatedAt, INSERTED.LastUpdatedAt
           VALUES (@Name, @Registration, @Commissioned, @Decommissioned, @ClassId)
-          """, input);
+          """, starship);
       return Results.Created($"/starships/{created.Id}", created);
     });
 
-    app.MapPut("starships/{id:int}", async (int id, Starship input, IDbConnection db) =>
+    app.MapPut("starships/{id:int}", async (int id, [FromBody] Starship starship, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           UPDATE dbo.Starship SET
@@ -54,16 +56,16 @@ public static class Starships
           new
           {
             Id = id,
-            input.Name,
-            input.Registration,
-            input.Commissioned,
-            input.Decommissioned,
-            input.ClassId
+            starship.Name,
+            starship.Registration,
+            starship.Commissioned,
+            starship.Decommissioned,
+            starship.ClassId
           });
       return affected == 0 ? Results.NotFound() : Results.NoContent();
     });
 
-    app.MapDelete("starships/{id:int}", async (int id, IDbConnection db) =>
+    app.MapDelete("starships/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           DELETE FROM dbo.Starship WHERE Id = @id
@@ -72,4 +74,3 @@ public static class Starships
     });
   }
 }
-

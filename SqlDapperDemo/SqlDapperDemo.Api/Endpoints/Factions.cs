@@ -1,5 +1,7 @@
 using System.Data;
 using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Mvc;
 using SqlDapperDemo.Api.Entities;
 
 namespace SqlDapperDemo.Api.Endpoints;
@@ -8,7 +10,7 @@ public static class Factions
 {
   public static void MapFactionEndpoints(this WebApplication app)
   {
-    app.MapGet("factions", async (IDbConnection db) =>
+    app.MapGet("factions", async ([FromServices] SqlConnection db) =>
     {
       var items = await db.QueryAsync<Faction>("""
           SELECT Id, Name, Colour, CreatedAt, LastUpdatedAt
@@ -18,7 +20,7 @@ public static class Factions
       return Results.Ok(items);
     });
 
-    app.MapGet("factions/{id:int}", async (int id, IDbConnection db) =>
+    app.MapGet("factions/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var item = await db.QuerySingleOrDefaultAsync<Faction>("""
           SELECT Id, Name, Colour, CreatedAt, LastUpdatedAt
@@ -28,17 +30,17 @@ public static class Factions
       return item is null ? Results.NotFound() : Results.Ok(item);
     });
 
-    app.MapPost("factions", async (Faction input, IDbConnection db) =>
+    app.MapPost("factions", async ([FromBody] Faction faction, [FromServices] SqlConnection db) =>
     {
       var created = await db.QuerySingleAsync<Faction>("""
           INSERT dbo.Faction (Name, Colour)
           OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Colour, INSERTED.CreatedAt, INSERTED.LastUpdatedAt
           VALUES (@Name, @Colour)
-          """, input);
+          """, faction);
       return Results.Created($"/factions/{created.Id}", created);
     });
 
-    app.MapPut("factions/{id:int}", async (int id, Faction input, IDbConnection db) =>
+    app.MapPut("factions/{id:int}", async (int id, [FromBody] Faction faction, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           UPDATE dbo.Faction
@@ -46,11 +48,11 @@ public static class Factions
               Colour = @Colour,
               LastUpdatedAt = GETUTCDATE()
           WHERE Id = @Id
-          """, new { Id = id, input.Name, input.Colour });
+          """, new { Id = id, faction.Name, faction.Colour });
       return affected == 0 ? Results.NotFound() : Results.NoContent();
     });
 
-    app.MapDelete("factions/{id:int}", async (int id, IDbConnection db) =>
+    app.MapDelete("factions/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           DELETE FROM dbo.Faction WHERE Id = @id
@@ -59,4 +61,3 @@ public static class Factions
     });
   }
 }
-

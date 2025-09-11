@@ -1,5 +1,7 @@
 using System.Data;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using SqlDapperDemo.Api.Entities;
 
 namespace SqlDapperDemo.Api.Endpoints;
@@ -8,7 +10,7 @@ public static class StarshipClasses
 {
   public static void MapStarshipClassEndpoints(this WebApplication app)
   {
-    app.MapGet("starship-classes", async (IDbConnection db) =>
+    app.MapGet("starship-classes", async ([FromServices] SqlConnection db) =>
     {
       var items = await db.QueryAsync<StarshipClass>("""
           SELECT Id, Name, Description, FactionId, Length, Width, Depth, Decks, Height,
@@ -20,7 +22,7 @@ public static class StarshipClasses
       return Results.Ok(items);
     });
 
-    app.MapGet("starship-classes/{id:int}", async (int id, IDbConnection db) =>
+    app.MapGet("starship-classes/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var item = await db.QuerySingleOrDefaultAsync<StarshipClass>("""
           SELECT Id, Name, Description, FactionId, Length, Width, Depth, Decks, Height,
@@ -32,7 +34,7 @@ public static class StarshipClasses
       return item is null ? Results.NotFound() : Results.Ok(item);
     });
 
-    app.MapPost("starship-classes", async (StarshipClass input, IDbConnection db) =>
+    app.MapPost("starship-classes", async ([FromBody] StarshipClass starshipClass, [FromServices] SqlConnection db) =>
     {
       var created = await db.QuerySingleAsync<StarshipClass>("""
           INSERT dbo.StarshipClass (
@@ -46,11 +48,11 @@ public static class StarshipClasses
             @Name, @Description, @FactionId, @Length, @Width, @Depth, @Decks, @Height,
             @MaxWarpSpeed, @Crew, @CargoCapacity, @StarshipType, @EnteredService, @ExitedService, @Active
           )
-          """, input);
+          """, starshipClass);
       return Results.Created($"/starship-classes/{created.Id}", created);
     });
 
-    app.MapPut("starship-classes/{id:int}", async (int id, StarshipClass input, IDbConnection db) =>
+    app.MapPut("starship-classes/{id:int}", async (int id, [FromBody] StarshipClass starshipClass, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           UPDATE dbo.StarshipClass SET
@@ -75,26 +77,26 @@ public static class StarshipClasses
           new
           {
             Id = id,
-            input.Name,
-            input.Description,
-            input.FactionId,
-            input.Length,
-            input.Width,
-            input.Depth,
-            input.Decks,
-            input.Height,
-            input.MaxWarpSpeed,
-            input.Crew,
-            input.CargoCapacity,
-            input.StarshipType,
-            input.EnteredService,
-            input.ExitedService,
-            input.Active
+            starshipClass.Name,
+            starshipClass.Description,
+            starshipClass.FactionId,
+            starshipClass.Length,
+            starshipClass.Width,
+            starshipClass.Depth,
+            starshipClass.Decks,
+            starshipClass.Height,
+            starshipClass.MaxWarpSpeed,
+            starshipClass.Crew,
+            starshipClass.CargoCapacity,
+            starshipClass.StarshipType,
+            starshipClass.EnteredService,
+            starshipClass.ExitedService,
+            starshipClass.Active
           });
       return affected == 0 ? Results.NotFound() : Results.NoContent();
     });
 
-    app.MapDelete("starship-classes/{id:int}", async (int id, IDbConnection db) =>
+    app.MapDelete("starship-classes/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           DELETE FROM dbo.StarshipClass WHERE Id = @id
@@ -103,4 +105,3 @@ public static class StarshipClasses
     });
   }
 }
-

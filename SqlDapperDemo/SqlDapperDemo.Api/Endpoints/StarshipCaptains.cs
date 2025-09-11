@@ -1,5 +1,7 @@
 using System.Data;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using SqlDapperDemo.Api.Entities;
 
 namespace SqlDapperDemo.Api.Endpoints;
@@ -8,7 +10,7 @@ public static class StarshipCaptains
 {
   public static void MapStarshipCaptainEndpoints(this WebApplication app)
   {
-    app.MapGet("starship-captains", async (IDbConnection db) =>
+    app.MapGet("starship-captains", async ([FromServices] SqlConnection db) =>
     {
       var items = await db.QueryAsync<StarshipCaptain>("""
           SELECT Id, StarshipId, CaptainId, CreatedAt
@@ -18,7 +20,7 @@ public static class StarshipCaptains
       return Results.Ok(items);
     });
 
-    app.MapGet("starship-captains/{id:int}", async (int id, IDbConnection db) =>
+    app.MapGet("starship-captains/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var item = await db.QuerySingleOrDefaultAsync<StarshipCaptain>("""
           SELECT Id, StarshipId, CaptainId, CreatedAt
@@ -28,17 +30,17 @@ public static class StarshipCaptains
       return item is null ? Results.NotFound() : Results.Ok(item);
     });
 
-    app.MapPost("starship-captains", async (StarshipCaptain input, IDbConnection db) =>
+    app.MapPost("starship-captains", async ([FromBody] StarshipCaptain starshipCaptain, [FromServices] SqlConnection db) =>
     {
       var created = await db.QuerySingleAsync<StarshipCaptain>("""
           INSERT dbo.StarshipCaptain (StarshipId, CaptainId)
           OUTPUT INSERTED.Id, INSERTED.StarshipId, INSERTED.CaptainId, INSERTED.CreatedAt
           VALUES (@StarshipId, @CaptainId)
-          """, input);
+          """, starshipCaptain);
       return Results.Created($"/starship-captains/{created.Id}", created);
     });
 
-    app.MapDelete("starship-captains/{id:int}", async (int id, IDbConnection db) =>
+    app.MapDelete("starship-captains/{id:int}", async (int id, [FromServices] SqlConnection db) =>
     {
       var affected = await db.ExecuteAsync("""
           DELETE FROM dbo.StarshipCaptain WHERE Id = @id
@@ -47,4 +49,3 @@ public static class StarshipCaptains
     });
   }
 }
-
