@@ -1,4 +1,3 @@
-using System.Data;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +11,14 @@ public static class Captains
   {
     // List all captains
     app.MapGet("captains", async ([FromServices] SqlConnection db) =>
-    {
-      var items = await db.QueryAsync<Captain>("""
+      {
+        var items = await db.QueryAsync<Captain>("""
           SELECT Id, Name, Rank, HomePlanet, Born, Died, CreatedAt, LastUpdatedAt
           FROM dbo.Captain
           ORDER BY Name
           """);
-      return Results.Ok(items);
-    });
+        return Results.Ok(items);
+      });
 
     // Get captain by id
     app.MapGet("captains/{id:int}", async (int id, [FromServices] SqlConnection db) =>
