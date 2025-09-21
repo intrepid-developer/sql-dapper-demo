@@ -1,6 +1,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
+using SqlDapperDemo.Api.Dtos;
 using SqlDapperDemo.Api.Entities;
 
 namespace SqlDapperDemo.Api.Endpoints;
@@ -15,6 +16,26 @@ public static class Captains
         var items = await db.QueryAsync<Captain>("""
           SELECT Id, Name, Rank, HomePlanet, Born, Died, CreatedAt, LastUpdatedAt
           FROM dbo.Captain
+          ORDER BY Name
+          """);
+        return Results.Ok(items);
+      });
+
+    app.MapGet("captains/with-assignments", async ([FromServices] SqlConnection db) =>
+      {
+        var items = await db.QueryAsync<CaptainViewDto>("""
+          SELECT Name,
+                 Rank,
+                 HomePlanet,
+                 Born,
+                 Died,
+                 FactionName,
+                 FactionColour,
+                 StarshipName,
+                 StarshipRegistration,
+                 StarshipCommissioned,
+                 StarshipDecommissioned
+          FROM dbo.vwCaptain
           ORDER BY Name
           """);
         return Results.Ok(items);
