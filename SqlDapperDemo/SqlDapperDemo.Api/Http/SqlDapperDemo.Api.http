@@ -9,5 +9,3 @@ GET {{host}}/health
 ###
 # OpenAPI document (Development only)
 GET {{host}}/openapi/v1.json
-
-###

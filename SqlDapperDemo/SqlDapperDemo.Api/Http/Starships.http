@@ -34,9 +34,7 @@ Content-Type: application/json
   "registration": "NCC-1701-A",
   "commissioned": "2286-01-01T00:00:00Z",
   "decommissioned": null,
-  "classId": 1,
-  "createdAt": "2024-01-01T00:00:00Z",
-  "lastUpdatedAt": "2024-01-01T00:00:00Z"
+  "classId": 1
 }
 
 ###

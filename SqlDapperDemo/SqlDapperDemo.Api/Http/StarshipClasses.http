@@ -54,9 +54,7 @@ Content-Type: application/json
   "starshipType": 1,
   "enteredService": "2270-01-01T00:00:00Z",
   "exitedService": null,
-  "active": true,
-  "createdAt": "2024-01-01T00:00:00Z",
-  "lastUpdatedAt": "2024-01-01T00:00:00Z"
+  "active": true
 }
 
 ###

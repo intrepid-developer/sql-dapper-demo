@@ -28,9 +28,7 @@ Content-Type: application/json
 {
   "id": {{id}},
   "name": "United Federation of Planets",
-  "colour": "Azure",
-  "createdAt": "2024-01-01T00:00:00Z",
-  "lastUpdatedAt": "2024-01-01T00:00:00Z"
+  "colour": "Azure"
 }
 
 ###

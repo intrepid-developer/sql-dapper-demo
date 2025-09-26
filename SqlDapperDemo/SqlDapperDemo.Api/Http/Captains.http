@@ -34,9 +34,7 @@ Content-Type: application/json
   "rank": "Admiral",
   "homePlanet": "Earth",
   "born": "2233-03-22T00:00:00Z",
-  "died": null,
-  "createdAt": "2024-01-01T00:00:00Z",
-  "lastUpdatedAt": "2024-01-01T00:00:00Z"
+  "died": null
 }
 
 ###
