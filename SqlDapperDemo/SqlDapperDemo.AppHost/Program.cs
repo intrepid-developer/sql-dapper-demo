@@ -5,8 +5,8 @@ builder.AddAzureContainerAppEnvironment("aca-host");
 
 // SQL Server
 var sql = builder.AddSqlServer("sql", port:51000)
-    .WithLifetime(ContainerLifetime.Persistent);
-var db = sql.AddDatabase("sql-dapper-demo");
+    .WithLifetime(ContainerLifetime.Persistent)
+    .AddDatabase("sql-dapper-demo");
 
 var sqlproj = builder.AddSqlProject<Projects.SqlDapperDemo_Database>("sqlproj")
     .WithConfigureDacDeployOptions(options =>
@@ -16,11 +16,11 @@ var sqlproj = builder.AddSqlProject<Projects.SqlDapperDemo_Database>("sqlproj")
         options.DeployDatabaseInSingleUserMode = true;
         options.AllowTableRecreation = true;
     })
-    .WithReference(db).WaitFor(db);
+    .WithReference(sql);
 
 // API
 builder.AddProject<Projects.SqlDapperDemo_Api>("api")
     .WaitForCompletion(sqlproj)
-    .WithReference(db).WaitFor(db);
+    .WithReference(sql).WaitFor(sql);
 
 builder.Build().Run();
