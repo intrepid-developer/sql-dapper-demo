@@ -21,7 +21,11 @@ if (app.Environment.IsDevelopment())
   app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// Only use HTTPS redirection if not in Testing environment
+if (!app.Environment.IsEnvironment("Testing"))
+{
+  app.UseHttpsRedirection();
+}
 
 // Map data endpoints
 app.MapCaptainEndpoints();

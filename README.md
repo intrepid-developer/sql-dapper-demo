@@ -2,7 +2,7 @@
 
 This repo backs a blog post about why understanding SQL still matters — even at a basic level — and how to pair that knowledge with Dapper for fast, explicit data access in .NET. The sample uses .NET Aspire to orchestrate a SQL Server container, deploy a database project, and run a minimal API that queries the database with Dapper.
 
-**Quick start:** `dotnet run --project SqlDapperDemo/SqlDapperDemo.AppHost` (requires Docker and .NET 9 SDK)
+**Quick start:** `dotnet run --project SqlDapperDemo/SqlDapperDemo.AppHost` (requires Docker and .NET 10 SDK)
 
 **Why SQL Still Matters**
 - Portability of knowledge: SQL is the common language across relational databases.
@@ -61,7 +61,7 @@ When a full ORM helps:
 **Run With .NET Aspire**
 
 Prerequisites:
-- .NET 9 SDK
+- .NET 10 SDK
 - Docker Desktop running
 
 Run everything (AppHost orchestrates SQL + DB deploy + API):
