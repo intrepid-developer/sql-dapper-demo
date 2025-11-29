@@ -1,0 +1,38 @@
+@host = http://localhost:5111
+@id = 1
+
+# List factions
+GET {{host}}/factions
+Accept: application/json
+
+###
+# Create faction
+POST {{host}}/factions
+Content-Type: application/json
+
+{
+  "name": "United Federation of Planets",
+  "colour": "Blue"
+}
+
+###
+# Get by id
+GET {{host}}/factions/{{id}}
+Accept: application/json
+
+###
+# Update faction
+PUT {{host}}/factions/{{id}}
+Content-Type: application/json
+
+{
+  "id": {{id}},
+  "name": "United Federation of Planets",
+  "colour": "Azure"
+}
+
+###
+# Delete faction
+DELETE {{host}}/factions/{{id}}
+
+###

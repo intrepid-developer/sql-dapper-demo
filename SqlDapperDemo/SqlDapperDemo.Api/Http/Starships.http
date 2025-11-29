@@ -1,0 +1,44 @@
+@host = http://localhost:5111
+@id = 1
+
+# List starships
+GET {{host}}/starships
+Accept: application/json
+
+###
+# Create starship (ensure ClassId exists)
+POST {{host}}/starships
+Content-Type: application/json
+
+{
+  "name": "USS Enterprise",
+  "registration": "NCC-1701",
+  "commissioned": "2265-01-01T00:00:00Z",
+  "decommissioned": null,
+  "classId": 1
+}
+
+###
+# Get by id
+GET {{host}}/starships/{{id}}
+Accept: application/json
+
+###
+# Update starship
+PUT {{host}}/starships/{{id}}
+Content-Type: application/json
+
+{
+  "id": {{id}},
+  "name": "USS Enterprise-A",
+  "registration": "NCC-1701-A",
+  "commissioned": "2286-01-01T00:00:00Z",
+  "decommissioned": null,
+  "classId": 1
+}
+
+###
+# Delete starship
+DELETE {{host}}/starships/{{id}}
+
+###

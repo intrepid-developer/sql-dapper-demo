@@ -1,0 +1,11 @@
+@host = http://localhost:5111
+
+# Health (Development only)
+GET {{host}}/alive
+
+###
+GET {{host}}/health
+
+###
+# OpenAPI document (Development only)
+GET {{host}}/openapi/v1.json

@@ -1,0 +1,44 @@
+@host = http://localhost:5111
+@id = 1
+
+# List captains
+GET {{host}}/captains
+Accept: application/json
+
+###
+# Create captain
+POST {{host}}/captains
+Content-Type: application/json
+
+{
+  "name": "James T. Kirk",
+  "rank": "Captain",
+  "homePlanet": "Earth",
+  "born": "2233-03-22T00:00:00Z",
+  "died": null
+}
+
+###
+# Get by id
+GET {{host}}/captains/{{id}}
+Accept: application/json
+
+###
+# Update captain
+PUT {{host}}/captains/{{id}}
+Content-Type: application/json
+
+{
+  "id": {{id}},
+  "name": "James T. Kirk",
+  "rank": "Admiral",
+  "homePlanet": "Earth",
+  "born": "2233-03-22T00:00:00Z",
+  "died": null
+}
+
+###
+# Delete captain
+DELETE {{host}}/captains/{{id}}
+
+###
